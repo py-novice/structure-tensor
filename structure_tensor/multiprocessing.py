@@ -174,7 +174,10 @@ def parallel_structure_tensor_analysis(
     # Check devices.
     if devices is None:
         # Use all CPUs.
-        devices = ['cpu'] * cpu_count()
+        if cpu_count()>=60:
+            devices = ['cpu'] * cpu_count()-10
+        else:
+            devices = ['cpu'] * cpu_count()
     elif all(
             isinstance(d, str) and (d.lower() == 'cpu' or 'cuda:' in d.lower())
             for d in devices):
